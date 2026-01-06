@@ -1,0 +1,23 @@
+name: publish
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      AWS_ACCESS_KEY_ID: ${{secrets.S3_ACCESS_KEY}}
+      AWS_SECRET_ACCESS_KEY: ${{secrets.S3_SECRET_KEY}}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6.0.1
+        with:
+          ref: main
+          path: repo
+      - name: Sync files
+        run: aws s3 sync repo/ s3://${{vars.BUCKET_NAME}}/ --exclude ".*" --exclude "*/.*"
+      - name: Invalidate Cloudfront Cache
+        run: aws cloudfront create-invalidation --distribution-id ${{vars.CLOUDFRONT_DISTRIBUTION_ID}} --path "/*"
