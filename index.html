@@ -11,7 +11,7 @@
         @import url('https://fonts.googleapis.com/css2?family=Reddit+Sans:ital,wght@0,200..900;1,200..900&display=swap');
 
         @font-face {
-            font-family: "RedditSans";
+            font-family: "Reddit Sans";
             font-style: normal;
             font-weight: 400;
             font-display: swap;
@@ -28,7 +28,7 @@
         }
 
         body {
-            font: normal 20px/1.4 RedditSans, Arial, system-ui, sans-serif;
+            font: normal 20px/1.4 Reddit Sans, Arial, system-ui, sans-serif;
             margin: 0;
             display: flex;
             flex-direction: column;
@@ -73,6 +73,11 @@
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
+        }
+
+        .projects > h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
         }
 
         .link {
@@ -179,6 +184,13 @@
             </svg>
             stackoverflow
         </a>
+    </div>
+
+    <div class="projects">
+        <h3>Projects</h3>
+        <div class="links">
+            <a class="link" href="https://github.com/matheuscirillo/synkronize">Synkronize</a>
+        </div>
     </div>
 </main>
 </body>
