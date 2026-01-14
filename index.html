@@ -141,13 +141,54 @@
                 transition: none !important;
             }
         }
+
+        .lang-header {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10;
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-switch button {
+            background: #000;
+            color: #fff;
+            border: 2px solid #fff;
+            border-radius: 30px;
+            padding: 8px 14px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all .15s cubic-bezier(0.3, 1.5, 0.6, 1);
+        }
+
+        .lang-switch button:hover {
+            opacity: 1;
+            transform: scale(1.1) rotate(-3deg);
+        }
+
+        .lang-switch button.active {
+            background: #fff;
+            color: #000;
+            opacity: 1;
+        }
+
     </style>
 </head>
 <body>
+<header class="lang-header">
+    <div class="lang-switch">
+        <button data-lang="en">EN</button>
+        <button data-lang="pt">PT-BR</button>
+    </div>
+</header>
 <main>
     <div>
         <b class="main-name">Matheus Cirillo</b>
-        solutions architect, Java developer, AWS Certified
+        <span data-i18n="subtitle">solutions architect, Java developer, AWS Certified</span>
     </div>
 
     <div class="links">
@@ -157,7 +198,8 @@
             </svg>
             @matheuscirillo
         </a>
-        <a class="link" href="https://www.linkedin.com/in/matheuscirillo/" target="_blank" rel="me" aria-label="LinkedIn">
+        <a class="link" href="https://www.linkedin.com/in/matheuscirillo/" target="_blank" rel="me"
+           aria-label="LinkedIn">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-linkedin"
                  viewBox="0 0 16 16">
                 <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z"/>
@@ -170,7 +212,7 @@
                 <rect width="20" height="16" x="2" y="4" rx="2"/>
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
             </svg>
-            email
+            <span data-i18n="email">email</span>
         </a>
         <a class="link" href="https://stackoverflow.com/users/9860374/matheus" target="_blank" rel="nofollow"
            aria-label="StackOverflow">
@@ -187,11 +229,54 @@
     </div>
 
     <div class="projects">
-        <h3>Projects</h3>
+        <h3 data-i18n="projects">Projects</h3>
         <div class="links">
-            <a class="link" href="https://github.com/matheuscirillo/synkronize">Synkronize</a>
+            <a class="link" href="https://github.com/matheuscirillo/synkronize">
+                Synkronize
+            </a>
         </div>
     </div>
 </main>
+<script>
+    const translations = {
+        en: {
+            subtitle: "solutions architect, Java developer, AWS Certified",
+            projects: "Projects",
+            email: "email"
+        },
+        pt: {
+            subtitle: "arquiteto de soluções, desenvolvedor Java, certificado AWS",
+            projects: "Projetos",
+            email: "email"
+        }
+    };
+
+    const elements = document.querySelectorAll("[data-i18n]");
+    const buttons = document.querySelectorAll(".lang-switch button");
+
+    function setLanguage(lang) {
+        elements.forEach(el => {
+            const key = el.dataset.i18n;
+            el.textContent = translations[lang][key];
+        });
+
+        buttons.forEach(btn => {
+            btn.classList.toggle("active", btn.dataset.lang === lang);
+        });
+
+        document.documentElement.lang = lang;
+        localStorage.setItem("lang", lang);
+    }
+
+    const savedLang = localStorage.getItem("lang") || "en";
+    setLanguage(savedLang);
+
+    buttons.forEach(btn => {
+        btn.addEventListener("click", () => {
+            setLanguage(btn.dataset.lang);
+        });
+    });
+</script>
+
 </body>
 </html>
